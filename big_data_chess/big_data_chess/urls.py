@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from chess.views import check_new_lichess_file_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/check-new-lichess-file/', check_new_lichess_file_view, name='check_new_lichess_file'),
 ]
