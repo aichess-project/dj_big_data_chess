@@ -1,18 +1,21 @@
 import os
 import re
+
 from datetime import datetime
-#from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from ..models import FolderConfig, LichessFile
+from django.conf import settings
+
+logger = settings.ELK_LOGGER  # Accessing the logger
 
 # Define a regex pattern to match filenames with any year and month
 FILE_PATTERN = re.compile(r"lichess_db_standard_rated_(\d{4})-(\d{2})\.pgn\.zst")
 
 def check_new_lichess_file(request):
-    print("XXX", request)
+    fkt_name = "check_new_lichess_file"
     try:
-        print("Start")
+        logger.info("Starting API call", function=fkt_name)
         # Fetch the folder configuration (assuming there's only one instance)
         config = FolderConfig.objects.first()
         if not config:
@@ -46,10 +49,12 @@ def check_new_lichess_file(request):
                     )
                     added_files.append(file_name)
 
+        logger.info("Ending API call", status=200, function=fkt_name)
         if added_files:
             return Response({'message': f'New files added to the database: {", ".join(added_files)}'}, status=201)
         else:
             return Response({'message': 'No new files found'}, status=200)
 
     except Exception as e:
+        logger.info(f"error: {e}", status=500, function=fkt_name)
         return Response({'error': str(e)}, status=500)

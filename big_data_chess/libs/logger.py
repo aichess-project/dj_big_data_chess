@@ -1,7 +1,6 @@
 import logging
 import sys
 import requests
-
 from datetime import datetime, timezone
 import json
 from pythonjsonlogger import jsonlogger
@@ -26,7 +25,6 @@ elk_logging = {
 
 class LogJsonFormatter(jsonlogger.JsonFormatter):
     def __init__(self, log_format, *args, **kwargs):
-        # Define the log message format you want
         super(LogJsonFormatter, self).__init__(fmt=log_format, *args, **kwargs)
 
     def add_fields(self, log_record, record, message_dict):
@@ -40,11 +38,11 @@ class LogJsonFormatter(jsonlogger.JsonFormatter):
         log_record['value'] = record.__dict__.get('value', None)
 
 class ELKHandler(logging.Handler):
-    def __init__(self, log_format, elk_url, elk_index):
+    def __init__(self, elk_url, elk_index, log_format):
         super().__init__()
         self.elk_url = elk_url
         self.elk_index = elk_index
-        self.formatter = LogJsonFormatter(log_format=log_format)
+        self.formatter = LogJsonFormatter(log_format)
 
     def emit(self, record):
         log_message = self.format(record)
@@ -59,7 +57,7 @@ class ELKHandler(logging.Handler):
             self.handleError(record)
 
 class ELK_Logger:
-    def __init__(self, log_level = log_level, log_format = log_format, file_logging = file_logging, elk_logging = elk_logging):
+    def __init__(self, log_level=log_level, log_format=log_format, file_logging=file_logging, elk_logging=elk_logging):
         self.logger = logging.getLogger(__name__)  # Initialize the logger
         self.formatter = LogJsonFormatter(log_format=log_format)
         self._configure_logger(log_level, file_logging, elk_logging)
@@ -69,7 +67,7 @@ class ELK_Logger:
         self.logger.setLevel(log_level)
 
         # Configure file logging
-        if file_logging["enabled"] == True:
+        if file_logging["enabled"]:
             file_handler = RotatingFileHandler(
                 file_logging["filename"],
                 maxBytes=file_logging["max_file_size"],
@@ -79,16 +77,16 @@ class ELK_Logger:
             self.logger.addHandler(file_handler)
 
         # Configure ELK/Logstash logging if configured
-        if elk_logging['enabled'] == "True":
+        if elk_logging['enabled']:
             elk_url = elk_logging['logstash_url']
             elk_index = elk_logging['index']
             if elk_url:
-                elk_handler = ELKHandler(self.formatter, elk_url, elk_index)
+                elk_handler = ELKHandler(elk_url, elk_index, log_format)
                 elk_handler.setLevel(log_level)
                 elk_handler.setFormatter(self.formatter)
                 self.logger.addHandler(elk_handler)
 
-    def log(self, level, message: str, status: str = None, function = None, variable: str = None, value = None):
+    def log(self, level, message: str, status: str = None, function=None, variable: str = None, value=None):
         extra = {
             'status': status,
             'function': function,
@@ -97,17 +95,17 @@ class ELK_Logger:
         }
         self.logger.log(level, message, extra=extra)
 
-    def debug(self, message: str, status = None, function = None, variable = None, value = None):
+    def debug(self, message: str, status=None, function=None, variable=None, value=None):
         self.log(logging.DEBUG, message, status, function, variable, value)
 
-    def info(self, message: str, status = None, function = None, variable = None, value = None):
+    def info(self, message: str, status=None, function=None, variable=None, value=None):
         self.log(logging.INFO, message, status, function, variable, value)
 
-    def warning(self, message: str, status = None, function = None, variable = None, value = None):
+    def warning(self, message: str, status=None, function=None, variable=None, value=None):
         self.log(logging.WARNING, message, status, function, variable, value)
 
-    def error(self, message: str, status = None, function = None, variable = None, value = None):
+    def error(self, message: str, status=None, function=None, variable=None, value=None):
         self.log(logging.ERROR, message, status, function, variable, value)
 
-    def critical(self, message: str, status = None, function = None, variable = None, value = None):
+    def critical(self, message: str, status=None, function=None, variable=None, value=None):
         self.log(logging.CRITICAL, message, status, function, variable, value)
