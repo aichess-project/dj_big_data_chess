@@ -10,11 +10,69 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from libs.logger import ELK_Logger
+import logging
+from logging.handlers import RotatingFileHandler
+from pythonjsonlogger import jsonlogger
+from libs.elk_handler import ELKHandler
+from libs.custom_json import CustomJsonFormatter
 
-# Initialize the logger
-ELK_LOGGER = ELK_Logger()
-ELK_LOGGER.info("Starting APP")
+# Configuration for logging
+LOG_LEVEL = logging.INFO
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+FILE_LOGGING = {
+    "enabled": True,
+    "filename": "app.log",
+    "max_file_size": 5242880,  # 5 MB
+    "backup_count": 5
+}
+
+ELK_LOGGING = {
+    "enabled": True,
+    "elasticsearch_url": "http://localhost:9200",
+    "index": "log_big_data_chess"
+}
+
+# Logger configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'json': {
+            '()': CustomJsonFormatter,  # Use the custom formatter
+            'fmt': LOG_FORMAT,
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': LOG_LEVEL,
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': FILE_LOGGING['filename'],
+            'maxBytes': FILE_LOGGING['max_file_size'],
+            'backupCount': FILE_LOGGING['backup_count'],
+            'formatter': 'json',
+        },
+        'elk': {
+            'level': LOG_LEVEL,
+            'class': 'libs.elk_handler.ELKHandler',
+            'elasticsearch_url': ELK_LOGGING['elasticsearch_url'],  # List of Elasticsearch nodes
+            'index': ELK_LOGGING['index'],
+            'formatter': 'json',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'elk'],
+            'level': LOG_LEVEL,
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['file', 'elk'],
+            'level': LOG_LEVEL,
+            'propagate': True,
+        },
+    },
+}
 
 from pathlib import Path
 
@@ -45,6 +103,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chess',
     'rest_framework',
+#    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
