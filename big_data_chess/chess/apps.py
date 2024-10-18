@@ -1,6 +1,11 @@
-from django.apps import AppConfig
+from django.apps import AppConfig as DjangoAppConfig
 
-
-class ChessConfig(AppConfig):
+class ChessConfig(DjangoAppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'chess'
+
+    def ready(self):
+        from .config import ChessConfigManager
+        ChessConfigManager.load_config()
+
+

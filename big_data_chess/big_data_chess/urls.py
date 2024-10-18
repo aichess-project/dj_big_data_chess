@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from chess.views import check_new_lichess_file_view
+from chess.views import check_new_lichess_file_view, decom_file, get_next_db_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/check-new-lichess-file/', check_new_lichess_file_view, name='check_new_lichess_file'),
+    path('api/decom-lichess-file/', decom_file, name='decom_file'),
+    # New APIs
+    path('api/get_next_db/', get_next_db_view, name='get_next_db_view'),
 ]

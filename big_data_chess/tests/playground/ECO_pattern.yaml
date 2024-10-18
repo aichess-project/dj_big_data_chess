@@ -1,0 +1,66 @@
+ECO_pattern:
+  - ECO-Code: "A57"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "a6.*5\\.e3"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "A43"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "g6.*5\\.f4"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "A44"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "4\\.Bb5|5\\.Bb5"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "A87"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "NO"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "D08"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "NO"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "E99"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "10\\.Be3|11\\.Be3"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "B66"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "NO"
+    Pattern_Black: "a6.*8\\.O-O-O.*h6.*9\\."
+
+  - ECO-Code: "E98"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "Ne8.*10\\."
+    Pattern_Black: "NO"
+
+  - ECO-Code: "C01"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "NO"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "D02"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "Bf4"
+    Pattern_Black: "NO"
+
+  - ECO-Code: "D00"
+    ELO_MIN_WHITE: 2000
+    ELO_MIN_BLACK: 2000
+    Pattern_White: "Bf4"
+    Pattern_Black: "NO"

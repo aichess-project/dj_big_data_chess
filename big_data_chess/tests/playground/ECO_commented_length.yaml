@@ -1,0 +1,26 @@
+move_length:
+  Default: 20
+  eco_list:
+  - ECO-Code: "A57"
+    eco_length: 30
+
+  - ECO-Code: "A43"
+    eco_length: 30
+
+  - ECO-Code: "A44"
+    eco_length: 30
+
+  - ECO-Code: "A87"
+    eco_length: 30
+
+  - ECO-Code: "D08"
+    eco_length: 30
+
+  - ECO-Code: "E99"
+    eco_length: 40
+
+  - ECO-Code: "B66"
+    eco_length: 30
+
+  - ECO-Code: "E98"
+    eco_length: 40
