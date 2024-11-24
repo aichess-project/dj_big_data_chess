@@ -30,7 +30,7 @@ def eco_write(eco, base_folder, file_path, header_str, moves, part = None):
     with file_lock:
         with open(filename, 'a') as f:  # 'a' mode is for appending to the file
             f.write(header_str)
-            f.write(clean_moves(moves)+"\n")
+            f.write(clean_moves(moves)+"\n"+"\n")
 
 def create_eco_elo_dict(yaml_data):
     return {item['ECO-Code']: {'ELO_MIN_WHITE': item['ELO_MIN_WHITE'], 'ELO_MIN_BLACK': item['ELO_MIN_BLACK']} for item in yaml_data['ECO_pattern']}

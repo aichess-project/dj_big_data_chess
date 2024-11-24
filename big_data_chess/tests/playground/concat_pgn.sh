@@ -18,6 +18,7 @@ fi
 
 # Loop through all .pgn files in the source folder
 for file in "$source_folder"/*.pgn; do
+  echo "$file"
   filename=$(basename "$file")
   # Extract the ECO-Code (first three characters of the filename)
   eco_code="${filename:0:3}"
